@@ -8,6 +8,7 @@ import Contact from "./component/Contact";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import ErrorPage from "./ErrorPage";
 import Help from "./component/Help";
+import RestaurantDetails from "./component/RestaurantDetails";
 
 
 const App = () => {
@@ -42,6 +43,10 @@ const appRouter = createBrowserRouter([
       {
         path: '/help',
         element: <Help />
+      },
+      {
+        path: '/restaurant/:resId',
+        element: <RestaurantDetails/>
       }
     ]
   }
