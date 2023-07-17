@@ -15,6 +15,22 @@ const Body = () => {
   const [allRestaurant, setAllRestaurant] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [filteredRestaurant, setFilteredRestaurant] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const searchData = (searchText,restaurant) => {
+    if(searchText !== ""){
+      const data = filterdata(searchText, restaurant);
+      setFilteredRestaurant(data);
+      // setErrorMessage("");
+      // if(data.length === 0){
+      //   setErrorMessage(`Sorry, we couldn't find any result for "${searchText}"`)
+      // }
+    }
+    else{
+        // setErrorMessage("");
+        setFilteredRestaurant(restaurant)
+    }
+  }
 
   useEffect(() => {
     getRestaurant();
@@ -23,7 +39,7 @@ const Body = () => {
   async function getRestaurant() {
     try {
       const data = await fetch(
-        "https://www.swiggy.com/dapi/restaurants/list/v5?lat=25.3176452&lng=82.9739144&page_type=DESKTOP_WEB_LISTING"
+        "https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=25.3176452&lng=82.9739144&page_type=DESKTOP_WEB_LISTING"
       );
       const json = await data.json();
       setAllRestaurant(json?.data?.cards?.[2]?.data?.data?.cards);
@@ -40,10 +56,9 @@ const Body = () => {
           type="text"
           placeholder="Search for restaurants"
           value={searchText}
-          className="outline-none text-base mob:text-xs p-[5px] basis-[350px] mob:basis-[270px] h-[30px] rounded-md ring-1 ring-gray bg-gray"
+          className="outline-none text-base mob:text-xs p-[5px] basis-[350px] mob:basis-[270px] h-[30px] rounded-md ring-1 ring-gray bg-gray mr-2"
           onChange={(e) => {setSearchText(e.target.value)
-            const data = filterdata(searchText, allRestaurant);
-            setFilteredRestaurant(data);
+            searchData(e.target.value,allRestaurant);
           }}
         />
         <button

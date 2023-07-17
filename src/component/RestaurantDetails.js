@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { RESTAURANT_TYPE_KEY } from "../utils/constant";
-import { IMG_CDN_URL } from "../utils/constant";
+import { MENU_TYPE_KEY, RESTAURANT_TYPE_KEY } from "../utils/constant";
+import { IMG_CDN_URL, ITEM_IMG_CDN } from "../utils/constant";
+import MenuShimmer from "./MenuShimmer";
 
 const RestaurantDetails = () => {
   const { resId } = useParams();
-
   const [restaurant, setRestaurant] = useState(null);
+  const [menuItems, setMenuItems] = useState([]);
 
   useEffect(() => {
     getRestaurantInfo();
@@ -15,7 +16,7 @@ const RestaurantDetails = () => {
   const getRestaurantInfo = async () => {
     try {
       const response = await fetch(
-        "https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=28.7040592&lng=77.10249019999999&restaurantId=" +
+        "https://corsproxy.io/?https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=28.7040592&lng=77.10249019999999&restaurantId=" +
           resId
       );
       const res_data = await response.json();
@@ -27,20 +28,48 @@ const RestaurantDetails = () => {
           ?.info || null;
 
       setRestaurant(restaurantData);
+
+      const menuItemsData =
+        res_data?.data?.cards
+          .find((x) => x.groupedCard)
+          ?.groupedCard?.cardGroupMap?.REGULAR?.cards?.map((x) => x.card?.card)
+          ?.filter((x) => x["@type"] == MENU_TYPE_KEY)
+          ?.map((x) => x.itemCards)
+          .flat()
+          .map((x) => x.card?.info) || [];
+
+      const uniqueMenuItems = [];
+
+      menuItemsData.forEach((item) => {
+        if (!uniqueMenuItems.find((x) => x.id === item.id)) {
+          uniqueMenuItems.push(item);
+        }
+      });
+
+      setMenuItems(uniqueMenuItems);
     } catch (error) {
       console.log(error);
     }
   };
 
-  return (
-    
+  return !restaurant ? (
+    <MenuShimmer />
+  ) : (
     <div className="container">
-      {console.log(restaurant)}
+      {console.log(menuItems)}
       <div className="flex basis-full h-60 justify-evenly items-center bg-blue-dark text-gray p-8">
-        <img className="w-[254px] h-[165px] mob:w-[130px] mob:[81px]" src={ IMG_CDN_URL  + restaurant?.cloudinaryImageId } alt={restaurant?.name}/>
+        <img
+          className="w-[254px] h-[165px] mob:w-[130px] mob:[81px]"
+          src={IMG_CDN_URL + restaurant?.cloudinaryImageId}
+          alt={restaurant?.name}
+        />
         <div className="flex flex-col basis-[540px] m-5 ">
-          <h2 className="text-3xl max-w-[538px] font-semibold">{restaurant?.name}</h2>
-          <p className="overflow-hidden whitespace-nowrap text-[15px] max-w-[538px]">{restaurant?.cuisines.join(", ")}</p>
+          <h2 className="text-3xl max-w-[538px] font-semibold">
+            {restaurant?.name}
+          </h2>
+          <p className="overflow-hidden whitespace-nowrap text-[15px] max-w-[538px]">
+            {restaurant?.cuisines.join(", ")}
+          </p>
           <div className="flex mt-5 justify-between items-center text-sm font-semibold pb-2.5 max-w-[342px] mob:text-xs mob:font-normal">
             <div className="flex items-center px-1 py-0 gap-1">
               ⭐<span>{restaurant?.avgRating}</span>
@@ -51,6 +80,31 @@ const RestaurantDetails = () => {
             <div>{restaurant?.costForTwoMessage}</div>
           </div>
         </div>
+      </div>
+
+      <div className="flex justify-center">
+        <div className="mt-7 w-[848px]">
+          <div className="p-5">
+            <h3 className="font-bold text-xl">Menu Lists</h3>
+            <p className="mt-3.5 w-3/5 text-gray-desc text-sm">{menuItems.length} ITEMS</p>
+          </div>
+          <div className="flex flex-col justify-evenly">
+            {menuItems.map((item)=>(
+              <div className="flex justify-between basis-[848px] max-h-[250px] p-5 border-b border-gray" key={item?.id}>
+                <div className="flex flex-col basis-[400px]">
+                  <h3 className="font-bold text-lg w-3/5">{item?.name}</h3>
+                  <p className="mt-1 text-base font-normal">{(item?.price > 0) ? new Intl.NumberFormat('en-IN', {style:'currency', currency: 'INR'}).format(item?.price/100):""}</p>
+                  <p className="mt-3.5 leading-5 text-gray-desc w-4/5 text-base overflow-hidden">{item?.description}</p>
+                </div>
+                <div className="flex flex-col justify-center items-center w-[118px] h-[150px]">
+                  {item?.imageId && <img className="w-[118px] h-[96px]" src={ITEM_IMG_CDN + item?.imageId} alt={item?.name}/>}
+                  <button className="btn btn--primary w-[118px] h-[34px] mt-2.5">ADD +</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="cart-widget"></div>
       </div>
     </div>
   );
