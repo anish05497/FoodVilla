@@ -47,6 +47,7 @@ const RestaurantDetails = () => {
       });
 
       setMenuItems(uniqueMenuItems);
+      window.scrollTo(0, 0)
     } catch (error) {
       console.log(error);
     }

@@ -44,6 +44,7 @@ const Body = () => {
       const json = await data.json();
       setAllRestaurant(json?.data?.cards?.[2]?.data?.data?.cards);
       setFilteredRestaurant(json?.data?.cards?.[2]?.data?.data?.cards);
+      window.scrollTo(0, 0)
     } catch (error) {
       console.log(error);
     }
