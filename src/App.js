@@ -1,14 +1,16 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./component/Header";
 import Body from "./component/Body";
 import Footer from "./component/Footer";
 import About from "./component/About";
-import Contact from "./component/Contact";
+// import Contact from "./component/Contact";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import ErrorPage from "./ErrorPage";
-import Help from "./component/Help";
 import RestaurantDetails from "./component/RestaurantDetails";
+
+const Help = lazy(()=> import('./component/Help'));
+const Contact = lazy(()=> import('./component/Contact'))
 
 
 const App = () => {
@@ -37,12 +39,28 @@ const appRouter = createBrowserRouter([
         element: <About/>
       },
       {
-        path: '/contact',
-        element: <Contact />
+        path: '/instamart',
+        element: (
+          <Suspense fallback={
+            <div className="container">
+              <h1>Loading...</h1>
+            </div>
+          }>
+            <Contact/>
+          </Suspense>
+        )
       },
       {
         path: '/help',
-        element: <Help />
+        element: (
+          <Suspense fallback={
+            <div className="container">
+              <h1>Loading...</h1>
+            </div>
+          }>
+            <Help/>
+          </Suspense>
+        )
       },
       {
         path: '/restaurant/:resId',

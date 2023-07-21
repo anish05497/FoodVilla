@@ -14,7 +14,7 @@ const Header = () => {
         <ul className="flex max-w-2xl items-center justify-between mt-2.5 mr-2.5">
           <li className="p-2"><Link to="/"><button className="nav--btn mob:w-12 mob:text-xs">Home</button></Link></li>
           <li className="p-2"><Link to="/about"><button className="nav--btn mob:w-12 mob:text-xs">About</button></Link></li>
-          <li className="p-2"><Link to="/contact"><button className="nav--btn mob:w-12 mob:text-xs">Contact</button></Link></li>
+          <li className="p-2"><Link to="/instamart"><button className="nav--btn mob:w-12 mob:text-xs">Instamart</button></Link></li>
           <li className="p-2"><Link to="/help"><button className="nav--btn mob:w-12 mob:text-xs">Help</button></Link></li>
           <li className="p-2"><button className="nav--btn mob:w-12 mob:text-xs">Cart</button></li>
           <li className="p-2"><button className="nav--btn mob:w-12 mob:text-xs">Login</button></li>
