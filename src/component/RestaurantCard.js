@@ -6,8 +6,8 @@ const RestaurantCard = ({
     name,
     cloudinaryImageId,
     cuisines,
-    slaString,
-    costForTwoString,
+    sla,
+    costForTwo,
     avgRating,
   }) => {
 
@@ -29,9 +29,9 @@ const RestaurantCard = ({
             <span>⭐ {avgRating}</span>
           </div>
           <div>•</div>
-          <div>{slaString}</div>
+          <div>{sla?.lastMileTravelString ?? '2.0 km'}</div>
           <div>•</div>
-          <div>{costForTwoString}</div>
+          <div>{costForTwo ?? '₹200 for two'}</div>
         </div>
       </div>
     </div>

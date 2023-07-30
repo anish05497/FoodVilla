@@ -18,8 +18,12 @@ export const GITHUB_USER_NAME = "anish05497";
 export const GITHUB_GET_USER = "https://api.github.com/users/";
 
 export const GITHUB_LINK = "https://github.com/anish05497";
-export const LINKEDIN_LINK = "https://www.linkedin.com/in/anish-gupta-6b60b0179/";
+export const LINKEDIN_LINK =
+  "https://www.linkedin.com/in/anish-gupta-6b60b0179/";
 export const GMAIL_LINK = "mailto:anish.gupta05497@gmail.com";
+
+export const swiggy_api_URL =
+  "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.6139391&lng=77.2090212&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING";
 
 export const FAQ = [
   {
