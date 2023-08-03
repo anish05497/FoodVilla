@@ -23,7 +23,7 @@ export const LINKEDIN_LINK =
 export const GMAIL_LINK = "mailto:anish.gupta05497@gmail.com";
 
 export const swiggy_api_URL =
-  "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.6139391&lng=77.2090212&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING";
+  "https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.6139391&lng=77.2090212&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING";
 
 export const FAQ = [
   {

@@ -8,6 +8,9 @@ import About from "./component/About";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import ErrorPage from "./ErrorPage";
 import RestaurantDetails from "./component/RestaurantDetails";
+import Signup from "./component/Signup";
+import { AuthContextProvider } from "./utils/context/AuthContext";
+import SignIn from "./component/SignIn";
 
 const Help = lazy(()=> import('./component/Help'));
 const Contact = lazy(()=> import('./component/Contact'))
@@ -15,11 +18,11 @@ const Contact = lazy(()=> import('./component/Contact'))
 
 const App = () => {
   return (
-    <>
+    <AuthContextProvider>
       <Header />
       <Outlet />
       <Footer />
-    </>
+    </AuthContextProvider>
   );
 };
 
@@ -65,6 +68,14 @@ const appRouter = createBrowserRouter([
       {
         path: '/restaurant/:resId',
         element: <RestaurantDetails/>
+      },
+      {
+        path: '/signup',
+        element: <Signup/>
+      },
+      {
+        path: '/signin',
+        element: <SignIn/>
       }
     ]
   }

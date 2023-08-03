@@ -41,6 +41,7 @@ const useResData = (API_URL) => {
         // update the state variable restaurants with Swiggy API data
         setAllRestaurants(resData);
         setFilteredRestaurants(resData);
+        window.scrollTo(0, 0)
       }
     } catch (error) {
       console.error(error); // show error in console
